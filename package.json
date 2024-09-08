@@ -4,6 +4,7 @@
   },
   "scripts": {
     "server": "json-server --watch db.json",
+    "dev": "npx webpack serve",
     "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix"
   },
