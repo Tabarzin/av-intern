@@ -1,26 +1,36 @@
-const path = require("path");
-
-const buildPath = path.resolve(__dirname, "dist");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: path.resolve(__dirname, "./compiled.js"),
+  mode: 'development',
+  entry: './src/main.tsx',
   output: {
-    path: buildPath,
-    filename: "bundle.js",
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
   },
-
+  resolve: {
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+  },
   module: {
     rules: [
       {
-        test: /\.jsx?/,
-        use: "babel-loader",
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
-
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+    }),
+  ],
   devServer: {
-    host: "127.0.0.1",
-    port: 9000,
-    contentBase: path.resolve(__dirname, "public"),
+    static: './dist',
+    hot: true,
   },
 };

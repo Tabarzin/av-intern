@@ -12,6 +12,10 @@
     "node": ">=20.0.0"
   },
   "devDependencies": {
-    "@types/react-dom": "^18.3.0"
+    "@babel/preset-typescript": "^7.24.7",
+    "@types/react-dom": "^18.3.0",
+    "css-loader": "^7.1.2",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.1"
   }
 }
