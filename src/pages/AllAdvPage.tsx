@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import getAdvs from '../services/api';
 import { Advertisment } from '../types/types';
+import AdvCard from '../components/AdvCard';
 
 const AllAdvPage: React.FC = () => {
   const [ads, setAds] = useState<Advertisment[]>([]);
@@ -23,7 +24,7 @@ const AllAdvPage: React.FC = () => {
     loadAllAdvs();
   }, []);
 
-  return <section>Advs</section>;
+  return <section>{!loading && ads.map((ad) => <AdvCard key={ad.id} advertisment={ad} />)}</section>;
 };
 
 export default AllAdvPage;
