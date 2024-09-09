@@ -4,9 +4,10 @@ const API = process.env.API_URL || 'http://localhost:3000';
 
 import { Advertisment } from '../types/types';
 
-export default async function getAdvs(): Promise<Advertisment[]> {
+export default async function getAdvs(page: number, items: number): Promise<Advertisment[]> {
   try {
     const response = await fetch(`${API}/advertisements`);
+
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
     }
