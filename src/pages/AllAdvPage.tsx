@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import getAdvs from '../services/api';
 import { Advertisment } from '../types/types';
 import AdvCard from '../components/AdvCard';
+import { Col, Divider, Row } from 'antd';
 
 const AllAdvPage: React.FC = () => {
   const [ads, setAds] = useState<Advertisment[]>([]);
@@ -24,7 +25,18 @@ const AllAdvPage: React.FC = () => {
     loadAllAdvs();
   }, []);
 
-  return <section>{!loading && ads.map((ad) => <AdvCard key={ad.id} advertisment={ad} />)}</section>;
+  return (
+    <section>
+      <Row gutter={[16, 16]}>
+        {!loading &&
+          ads.map((ad) => (
+            <Col key={ad.id} span={8}>
+              <AdvCard advertisment={ad} />
+            </Col>
+          ))}
+      </Row>
+    </section>
+  );
 };
 
 export default AllAdvPage;
