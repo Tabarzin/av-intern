@@ -1,6 +1,5 @@
-.header {
-  display: flex;
-  justify-content: space-around;
+/* .header {
+  
   margin-bottom: 30px;
 }
 
@@ -13,4 +12,50 @@
 
 .header-link {
   text-decoration: none;
+} */
+
+.header {
+  background-color: #f0f0f0;
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.header-ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+.header-link {
+  text-decoration: none;
+  position: relative;
+}
+
+.header-link h3 {
+  color: #1890ff;
+  transition: color 0.3s ease;
+}
+
+.header-link:hover h3 {
+  color: #096dd9;
+}
+
+.header-link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #1890ff;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-out;
+}
+
+.header-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }

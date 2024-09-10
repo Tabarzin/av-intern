@@ -12,8 +12,6 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ allAds, setShownAds }) => {
   const [searchItem, setSearchItem] = useState('');
-  console.log(searchItem, 'SEARCHITEM');
-  console.log(allAds);
 
   const debouncedSearch = useCallback(
     debounce((value: string) => {
@@ -27,8 +25,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ allAds, setShownAds }) => {
 
   const handleSearch = (value: string) => {
     setSearchItem(value);
-
-    debouncedSearch(value);
+    if (value.length >= 3) {
+      debouncedSearch(value);
+    } else {
+      setShownAds(allAds);
+    }
   };
 
   return (
