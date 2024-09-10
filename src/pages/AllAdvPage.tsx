@@ -4,51 +4,29 @@ import { Advertisment } from '../types/types';
 import AdvCard from '../components/AdvCard';
 import { Col, Row } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import SearchBar from '../components/SearchBar';
 
 const AllAdvPage: React.FC = () => {
-  const [ads, setAds] = useState<Advertisment[]>([]);
+  const [allAds, setAllAds] = useState<Advertisment[]>([]);
+  const [shownAds, setShownAds] = useState<Advertisment[]>([]);
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
-
-  console.log(ads.length);
-
-  const ITEMS_PER_PAGE = 10;
-
-  // useEffect(() => {
-  //   loadAllAdvs();
-  // }, []);
-
-  // const loadAllAdvs = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const fetchedAds = await getAdvs(1, ITEMS_PER_PAGE);
-
-  //     if (fetchedAds.length === 0) {
-  //       setHasMore(false);
-  //     } else {
-  //       setAds((prevAds) => [...prevAds, ...fetchedAds]);
-  //       setPage(page + 1);
-  //     }
-  //   } catch (err) {
-  //     if (err instanceof Error) {
-  //       console.error(err.message);
-  //     }
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
-    loadInitialAdvs();
+    loadAllAdvs();
   }, []);
 
-  const loadInitialAdvs = async () => {
+  useEffect(() => {
+    loadShownAds();
+  }, [allAds, itemsPerPage]);
+
+  const loadAllAdvs = async () => {
     try {
       setLoading(true);
-      const fetchedAds = await getAdvs(1, ITEMS_PER_PAGE);
-      setAds(fetchedAds);
-      setHasMore(fetchedAds.length === ITEMS_PER_PAGE);
+      const fetchedAds = await getAdvs();
+      setAllAds(fetchedAds);
     } catch (err) {
       if (err instanceof Error) {
         console.error(err.message);
@@ -58,26 +36,42 @@ const AllAdvPage: React.FC = () => {
     }
   };
 
-  const loadMoreAdvs = async () => {
-    try {
-      setLoading(true);
-      const fetchedAds = await getAdvs(page + 1, ITEMS_PER_PAGE);
-      setAds((prevAds) => [...prevAds, ...fetchedAds]);
-      setPage(page + 1);
-      setHasMore(fetchedAds.length === ITEMS_PER_PAGE);
-    } catch (err) {
-      if (err instanceof Error) {
-        console.error(err.message);
-      }
-    } finally {
-      setLoading(false);
-    }
+  const loadShownAds = () => {
+    setShownAds(allAds.slice(0, itemsPerPage));
+    setHasMore(itemsPerPage < allAds.length);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const newItemsPerPage = value === '' ? 0 : Math.max(1, parseInt(value, 10));
+    setItemsPerPage(newItemsPerPage);
+    setShownAds(allAds.slice(0, newItemsPerPage)); // reset search
+  };
+
+  const loadMoreAdvs = () => {
+    const currentLength = shownAds.length;
+    const newAds = allAds.slice(currentLength, currentLength + itemsPerPage);
+    setShownAds((prevAds) => [...prevAds, ...newAds]);
+    setHasMore(currentLength + newAds.length < allAds.length);
   };
 
   return (
     <section>
+      <label htmlFor="adsNumber">Показывать объявлений:</label>
+
+      <input
+        type="number"
+        id="adsNumber"
+        name="ads"
+        min="1"
+        max="100"
+        value={itemsPerPage}
+        onChange={handleInputChange}
+      />
+      <SearchBar allAds={allAds} setShownAds={setShownAds} />
+
       <InfiniteScroll
-        dataLength={ads.length}
+        dataLength={shownAds.length}
         next={loadMoreAdvs}
         hasMore={hasMore}
         loader={<h4>Loading...</h4>}
@@ -88,7 +82,7 @@ const AllAdvPage: React.FC = () => {
         }
       >
         <Row gutter={16}>
-          {ads.map((ad) => (
+          {shownAds.map((ad) => (
             <Col span={8} key={ad.id}>
               <AdvCard advertisment={ad} />
             </Col>
