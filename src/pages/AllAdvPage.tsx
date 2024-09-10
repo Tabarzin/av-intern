@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { getAdvs } from '../services/api';
+import { createAd, getAdvs } from '../services/api';
 import { Advertisment } from '../types/types';
 import AdvCard from '../components/AdvCard';
-import { Col, Row } from 'antd';
+import { Col, Row, Button, Modal, Form, Input, InputNumber } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SearchBar from '../components/SearchBar';
 import { Link } from 'react-router-dom';
+import TextArea from 'antd/es/input/TextArea';
+import { v4 as uuidv4 } from 'uuid';
 
 const AllAdvPage: React.FC = () => {
   const [allAds, setAllAds] = useState<Advertisment[]>([]);
@@ -13,7 +15,9 @@ const AllAdvPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [form] = Form.useForm();
 
   useEffect(() => {
     loadAllAdvs();
@@ -56,6 +60,40 @@ const AllAdvPage: React.FC = () => {
     setHasMore(currentLength + newAds.length < allAds.length);
   };
 
+  /* MODAL */
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModal = async () => {
+    const uniqueId = uuidv4();
+    const currentDate = new Date().toISOString();
+    try {
+      const values = await form.validateFields();
+      const newAd: Advertisment = {
+        name: values.name,
+        description: values.description,
+        price: values.price,
+        imageUrl: values.imageUrl,
+        id: uniqueId,
+        createdAt: currentDate,
+        views: 0,
+        likes: 0,
+      };
+      await createAd(newAd);
+      console.log('Объявление создано успешно');
+      form.resetFields();
+      setIsModalOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <section>
       <label htmlFor="adsNumber">Показывать объявлений:</label>
@@ -92,6 +130,33 @@ const AllAdvPage: React.FC = () => {
           ))}
         </Row>
       </InfiniteScroll>
+
+      <div>
+        <Button type="primary" onClick={showModal}>
+          Создать объявление
+        </Button>
+        <Modal title="Новое объявление" open={isModalOpen} onOk={handleModal} onCancel={handleCancel}>
+          <Form form={form} layout="vertical">
+            <Form.Item
+              label="Ссылка на изображение"
+              name="imageUrl"
+              rules={[{ message: 'Введите ссылку на изображение' }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item label="Название" name="name" rules={[{ required: true, message: 'Введите название' }]}>
+              <Input />
+            </Form.Item>
+
+            <Form.Item label="Описание" name="description" rules={[{ required: true, message: 'Введите описание' }]}>
+              <TextArea rows={4} />
+            </Form.Item>
+            <Form.Item label="Стоимость" name="price" rules={[{ required: true, message: 'Укажите цену' }]}>
+              <InputNumber />
+            </Form.Item>
+          </Form>
+        </Modal>
+      </div>
     </section>
   );
 };

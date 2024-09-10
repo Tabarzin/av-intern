@@ -76,6 +76,32 @@
       "views": 200000,
       "likes": 302,
       "imageUrl": ""
+    },
+    {
+      "id": "1cf8f400-143a-4758-89cd-d5654e4a1cd4",
+      "createdAt": "2024-09-10T13:18:55.377Z",
+      "views": 0,
+      "likes": 0
+    },
+    {
+      "id": "6aedc4c7-26ca-4d93-ad44-880341a5c236",
+      "name": "tete",
+      "description": "sdfsdfsdf",
+      "price": 23,
+      "imageUrl": "еуые",
+      "createdAt": "2024-09-10T13:24:30.490Z",
+      "views": 0,
+      "likes": 0
+    },
+    {
+      "id": "0e81ab6a-38ac-4d7b-951d-c21138787012",
+      "name": "test test",
+      "description": "testte tetet tetetetstete ",
+      "price": 12,
+      "imageUrl": "test url",
+      "createdAt": "2024-09-10T13:26:10.031Z",
+      "views": 0,
+      "likes": 0
     }
   ],
   "orders": [

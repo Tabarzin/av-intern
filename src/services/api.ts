@@ -42,3 +42,24 @@ export async function getAdvById(id: string): Promise<Advertisment> {
     return Promise.reject(new Error('Failed to fetch ad'));
   }
 }
+
+export async function createAd(newAd: Advertisment): Promise<void> {
+  try {
+    const response = await fetch(`${API}/advertisements`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newAd),
+    });
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error(`An unknown error occurred`);
+    }
+  }
+}
