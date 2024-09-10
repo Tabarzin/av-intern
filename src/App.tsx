@@ -3,19 +3,22 @@ import AllAdvPage from './pages/AllAdvPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SingleAdvPage from './pages/SingleAdvPage';
 import OrdersPage from './pages/OrdersPage';
+import './App.css';
+import Header from './components/Header/Header';
 
 const App: React.FC = () => {
   return (
-    <main>
-      <BrowserRouter>
+    <BrowserRouter>
+      <main className="main">
+        <Header />
+
         <Routes>
           <Route path="/" element={<AllAdvPage />} />
           <Route path="/ad/:id" element={<SingleAdvPage />} />
           <Route path="/orders" element={<OrdersPage />} />
         </Routes>
-      </BrowserRouter>
-      ;
-    </main>
+      </main>
+    </BrowserRouter>
   );
 };
 

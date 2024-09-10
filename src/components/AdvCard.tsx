@@ -10,7 +10,7 @@ const AdvCard: React.FC<AdvCardProps> = ({ advertisment }) => {
   const placeholderImage = 'https://placehold.co/600x400';
   const imageUrl = advertisment.imageUrl ? advertisment.imageUrl : placeholderImage;
   return (
-    <Card hoverable cover={<img alt={advertisment.name} src={imageUrl} />}>
+    <Card hoverable cover={<img alt={advertisment.name} src={imageUrl} style={{ width: '600px', height: '400px' }} />}>
       <Card.Meta
         title={advertisment.name}
         description={

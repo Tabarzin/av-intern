@@ -96,7 +96,9 @@ const AllAdvPage: React.FC = () => {
 
   return (
     <section>
-      <label htmlFor="adsNumber">Показывать объявлений:</label>
+      <label htmlFor="adsNumber" style={{ fontSize: '23px', paddingRight: '5px' }}>
+        Показывать объявлений:
+      </label>
 
       <input
         type="number"
@@ -106,6 +108,7 @@ const AllAdvPage: React.FC = () => {
         max="100"
         value={itemsPerPage}
         onChange={handleInputChange}
+        style={{ fontSize: '23px' }}
       />
       <SearchBar allAds={allAds} setShownAds={setShownAds} />
 

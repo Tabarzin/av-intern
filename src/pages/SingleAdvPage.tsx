@@ -62,7 +62,7 @@ const SingleAdvPage: React.FC = () => {
   return (
     <section>
       {!isEditMode ? (
-        <Card hoverable cover={<img alt={ad.name} src={imageUrl} />}>
+        <Card hoverable cover={<img alt={ad.name} src={imageUrl} style={{ width: '600px', height: '400px' }} />}>
           <Card.Meta
             title={ad.name}
             description={

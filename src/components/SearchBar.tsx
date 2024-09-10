@@ -17,7 +17,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ allAds, setShownAds }) => {
 
   const debouncedSearch = useCallback(
     debounce((value: string) => {
-      const filteredAds = allAds.filter((ad) => ad.name.toLowerCase().includes(value.toLowerCase()));
+      const filteredAds = allAds.filter((ad) =>
+        ad.name ? ad.name.toLowerCase().includes(value.toLowerCase()) : false,
+      );
       setShownAds(filteredAds);
     }, 300),
     [allAds, setShownAds],
@@ -36,6 +38,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ allAds, setShownAds }) => {
       onChange={(e) => handleSearch(e.target.value)}
       enterButton="Search"
       size="large"
+      style={{ width: '800px' }}
     />
   );
 };
