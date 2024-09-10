@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import getAdvs from '../services/api';
+import { getAdvs } from '../services/api';
 import { Advertisment } from '../types/types';
 import AdvCard from '../components/AdvCard';
 import { Col, Row } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SearchBar from '../components/SearchBar';
+import { Link } from 'react-router-dom';
 
 const AllAdvPage: React.FC = () => {
   const [allAds, setAllAds] = useState<Advertisment[]>([]);
@@ -84,7 +85,9 @@ const AllAdvPage: React.FC = () => {
         <Row gutter={16}>
           {shownAds.map((ad) => (
             <Col span={8} key={ad.id}>
-              <AdvCard advertisment={ad} />
+              <Link to={`/ad/${ad.id}`}>
+                <AdvCard advertisment={ad} />
+              </Link>
             </Col>
           ))}
         </Row>
