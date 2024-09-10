@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Card, List, Modal } from 'antd';
 import { Order } from '../types/types';
+import { Link } from 'react-router-dom';
 
 interface OrderProps {
   order: Order;
@@ -57,9 +58,11 @@ const OrderCard: React.FC<OrderProps> = ({ order }) => {
           itemLayout="horizontal"
           dataSource={order.items}
           renderItem={(item) => (
-            <List.Item>
-              <List.Item.Meta title={item.name} description={`Количество: ${item.count}, Цена: ${item.price}`} />
-            </List.Item>
+            <Link to={`/ad/${item.id}`}>
+              <List.Item>
+                <List.Item.Meta title={item.name} description={`Количество: ${item.count}, Цена: ${item.price}`} />
+              </List.Item>
+            </Link>
           )}
         />
       </Modal>
