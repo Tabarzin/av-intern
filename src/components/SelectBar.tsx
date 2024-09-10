@@ -6,21 +6,18 @@ const options: SelectProps['options'] = [];
 
 interface SelectBarProps {
   options: SelectProps['options'];
+  onChange: (value: string[]) => void;
 }
 
-const handleChange = (value: string[]) => {
-  console.log(`selected ${value}`);
-};
-
-const SelectBar: React.FC<SelectBarProps> = ({ options }) => (
+const SelectBar: React.FC<SelectBarProps> = ({ options, onChange }) => (
   <Space style={{ width: '100%' }} direction="vertical">
     <Select
       mode="multiple"
       allowClear
-      style={{ width: '100%' }}
+      style={{ width: '800px' }}
       placeholder="Please select"
       defaultValue={[]}
-      onChange={handleChange}
+      onChange={onChange}
       options={options}
     />
   </Space>

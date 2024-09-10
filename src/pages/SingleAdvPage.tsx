@@ -12,7 +12,7 @@ const SingleAdvPage: React.FC = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const navigate = useNavigate();
 
-  const placeholderImage = 'https://placehold.co/600x400';
+  const placeholderImage = 'https://fakeimg.pl/400x300/cccccc/cc6464?font=lobster';
   const imageUrl = placeholderImage;
 
   console.log(ad, 'ASDD');
@@ -62,7 +62,7 @@ const SingleAdvPage: React.FC = () => {
   return (
     <section>
       {!isEditMode ? (
-        <Card hoverable cover={<img alt={ad.name} src={imageUrl} style={{ width: '600px', height: '400px' }} />}>
+        <Card hoverable cover={<img alt={ad.name} src={imageUrl} style={{ width: '400px', height: '300px' }} />}>
           <Card.Meta
             title={ad.name}
             description={
@@ -107,13 +107,13 @@ const SingleAdvPage: React.FC = () => {
             <Input />
           </Form.Item>
 
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" style={{ marginBottom: '15px' }}>
             Сохранить изменения
           </Button>
         </Form>
       )}
 
-      <nav>
+      <nav style={{ display: 'flex', gap: '10px' }}>
         <Button onClick={() => navigate('/')}>Вернуться на страницу объявлений</Button>
         <Button onClick={handleEditToggle}>{isEditMode ? 'Отменить редактирование' : 'Редактировать'}</Button>
       </nav>

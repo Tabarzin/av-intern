@@ -1,6 +1,7 @@
 .header {
   display: flex;
   justify-content: space-around;
+  margin-bottom: 30px;
 }
 
 .header-ul {

@@ -66,7 +66,7 @@
       "createdAt": "2024-08-12T14:16:55.351Z",
       "views": 20000,
       "likes": 1,
-      "imageUrl": "www"
+      "imageUrl": ""
     },
     {
       "id": "8",
@@ -78,28 +78,57 @@
       "imageUrl": ""
     },
     {
-      "id": "1cf8f400-143a-4758-89cd-d5654e4a1cd4",
-      "createdAt": "2024-09-10T13:18:55.377Z",
-      "views": 0,
-      "likes": 0
+      "id": "9",
+      "name": "Новый айфон",
+      "price": 100000,
+      "createdAt": "2024-08-12T12:16:55.351Z",
+      "views": 200000,
+      "likes": 302,
+      "imageUrl": ""
     },
     {
-      "id": "6aedc4c7-26ca-4d93-ad44-880341a5c236",
-      "name": "tete",
-      "description": "sdfsdfsdf",
+      "id": "10",
+      "name": "Новый айфон",
+      "price": 100000,
+      "createdAt": "2024-08-12T12:16:55.351Z",
+      "views": 200000,
+      "likes": 302,
+      "imageUrl": ""
+    },
+    {
+      "id": "11",
+      "name": "Новый айфон",
+      "price": 100000,
+      "createdAt": "2024-08-12T12:16:55.351Z",
+      "views": 200000,
+      "likes": 302,
+      "imageUrl": ""
+    },
+    {
+      "id": "12",
+      "name": "Новый айфон",
+      "price": 100000,
+      "createdAt": "2024-08-12T12:16:55.351Z",
+      "views": 200000,
+      "likes": 302,
+      "imageUrl": ""
+    },
+    {
+      "id": "13",
+      "name": "Новый айфон",
+      "price": 100000,
+      "createdAt": "2024-08-12T12:16:55.351Z",
+      "views": 200000,
+      "likes": 302,
+      "imageUrl": ""
+    },
+    {
+      "id": "d4e0eb73-c523-46ea-bc7c-6054eba44933",
+      "name": "Корзина для цветов",
+      "description": "Самая глубокая корзина для длинных цветов.",
       "price": 23,
-      "imageUrl": "еуые",
-      "createdAt": "2024-09-10T13:24:30.490Z",
-      "views": 0,
-      "likes": 0
-    },
-    {
-      "id": "0e81ab6a-38ac-4d7b-951d-c21138787012",
-      "name": "test test",
-      "description": "testte tetet tetetetstete ",
-      "price": 12,
-      "imageUrl": "test url",
-      "createdAt": "2024-09-10T13:26:10.031Z",
+      "imageUrl": "https://fakeimg.pl/400x300/cccccc/cc6464?font=lobster",
+      "createdAt": "2024-09-10T21:55:26.496Z",
       "views": 0,
       "likes": 0
     }

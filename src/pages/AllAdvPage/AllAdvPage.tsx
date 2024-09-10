@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { createAd, getAdvs } from '../services/api';
-import { Advertisment } from '../types/types';
-import AdvCard from '../components/AdvCard';
+import { createAd, getAdvs } from '../../services/api';
+import { Advertisment } from '../../types/types';
+import AdvCard from '../../components/AdvCard';
 import { Col, Row, Button, Modal, Form, Input, InputNumber } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import SearchBar from '../components/SearchBar';
+import SearchBar from '../../components/SearchBar';
 import { Link } from 'react-router-dom';
 import TextArea from 'antd/es/input/TextArea';
 import { v4 as uuidv4 } from 'uuid';
+import './AllAdvPage.css';
+import SelectBar from '../../components/SelectBar';
+
+const filterOptions = [
+  { label: 'Price', value: 'price' },
+  { label: 'Likes', value: 'likes' },
+  { label: 'Views', value: 'views' },
+];
 
 const AllAdvPage: React.FC = () => {
   const [allAds, setAllAds] = useState<Advertisment[]>([]);
@@ -17,6 +25,9 @@ const AllAdvPage: React.FC = () => {
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [isManualSelection, setIsManualSelection] = useState(false);
+  const [filters, setFilters] = useState<string[]>([]);
+
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -24,8 +35,8 @@ const AllAdvPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    loadShownAds();
-  }, [allAds, itemsPerPage]);
+    applyFilters();
+  }, [allAds, itemsPerPage, filters]);
 
   const loadAllAdvs = async () => {
     try {
@@ -43,17 +54,41 @@ const AllAdvPage: React.FC = () => {
 
   const loadShownAds = () => {
     setShownAds(allAds.slice(0, itemsPerPage));
-    setHasMore(itemsPerPage < allAds.length);
+    setHasMore(!isManualSelection && itemsPerPage < allAds.length);
+  };
+
+  const applyFilters = () => {
+    let filteredAds = [...allAds];
+
+    if (filters.includes('price')) {
+      filteredAds.sort((a, b) => a.price - b.price);
+    }
+    if (filters.includes('likes')) {
+      filteredAds.sort((a, b) => b.likes - a.likes);
+    }
+    if (filters.includes('views')) {
+      filteredAds.sort((a, b) => b.views - a.views);
+    }
+
+    setShownAds(filteredAds.slice(0, itemsPerPage));
+    setHasMore(!isManualSelection && itemsPerPage < filteredAds.length);
+  };
+
+  const handleFilterChange = (selectedFilters: string[]) => {
+    setFilters(selectedFilters);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const newItemsPerPage = value === '' ? 0 : Math.max(1, parseInt(value, 10));
     setItemsPerPage(newItemsPerPage);
+    setIsManualSelection(true);
     setShownAds(allAds.slice(0, newItemsPerPage)); // reset search
+    applyFilters();
   };
 
   const loadMoreAdvs = () => {
+    if (isManualSelection) return;
     const currentLength = shownAds.length;
     const newAds = allAds.slice(currentLength, currentLength + itemsPerPage);
     setShownAds((prevAds) => [...prevAds, ...newAds]);
@@ -96,34 +131,39 @@ const AllAdvPage: React.FC = () => {
 
   return (
     <section>
-      <label htmlFor="adsNumber" style={{ fontSize: '23px', paddingRight: '5px' }}>
-        Показывать объявлений:
-      </label>
+      <div className="controls">
+        <div className="controls-show-ads">
+          <label htmlFor="adsNumber" style={{ fontSize: '23px', paddingRight: '5px' }}>
+            Показывать объявлений:
+          </label>
 
-      <input
-        type="number"
-        id="adsNumber"
-        name="ads"
-        min="1"
-        max="100"
-        value={itemsPerPage}
-        onChange={handleInputChange}
-        style={{ fontSize: '23px' }}
-      />
-      <SearchBar allAds={allAds} setShownAds={setShownAds} />
+          <input
+            type="number"
+            id="adsNumber"
+            name="ads"
+            min="1"
+            max="100"
+            value={itemsPerPage}
+            onChange={handleInputChange}
+            style={{ fontSize: '23px' }}
+          />
+        </div>
+        <SearchBar allAds={allAds} setShownAds={setShownAds} />
+        <SelectBar options={filterOptions} onChange={handleFilterChange} />
+        <Button type="primary" onClick={showModal}>
+          Создать объявление
+        </Button>
+      </div>
 
       <InfiniteScroll
         dataLength={shownAds.length}
         next={loadMoreAdvs}
         hasMore={hasMore}
-        loader={<h4>Loading...</h4>}
-        endMessage={
-          <p style={{ textAlign: 'center' }}>
-            <b>Больше объявлений нет.</b>
-          </p>
-        }
+        loader={''}
+        endMessage={''}
+        style={{ overflow: 'hidden' }}
       >
-        <Row gutter={16}>
+        <Row gutter={[32, 32]}>
           {shownAds.map((ad) => (
             <Col span={8} key={ad.id}>
               <Link to={`/ad/${ad.id}`}>
@@ -135,9 +175,6 @@ const AllAdvPage: React.FC = () => {
       </InfiniteScroll>
 
       <div>
-        <Button type="primary" onClick={showModal}>
-          Создать объявление
-        </Button>
         <Modal title="Новое объявление" open={isModalOpen} onOk={handleModal} onCancel={handleCancel}>
           <Form form={form} layout="vertical">
             <Form.Item
