@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Radio, Input, Space } from 'antd';
+import { Radio, Space } from 'antd';
 import type { RadioChangeEvent } from 'antd';
+import React, { useState } from 'react';
 
 interface SortRadioProps {
   onSortChange: (sortType: number) => void;

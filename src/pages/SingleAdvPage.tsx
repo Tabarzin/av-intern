@@ -1,9 +1,10 @@
+import { Button, Card, Form, Input, InputNumber } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { editAd, getAdvById } from '../services/api';
 import { Advertisment } from '../types/types';
-import { Button, Card, Form, Input, InputNumber } from 'antd';
-import TextArea from 'antd/es/input/TextArea';
 
 const SingleAdvPage: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
@@ -15,8 +16,6 @@ const SingleAdvPage: React.FC = () => {
   const placeholderImage = 'https://fakeimg.pl/400x300/cccccc/cc6464?font=lobster';
   const imageUrl = placeholderImage;
 
-  console.log(ad, 'ASDD');
-
   useEffect(() => {
     if (!id) {
       setError('Такого объявления нет');
@@ -25,7 +24,6 @@ const SingleAdvPage: React.FC = () => {
     }
     const fetchAd = async () => {
       const fetchedAd = await getAdvById(id);
-      console.log(typeof fetchedAd);
       setAd(fetchedAd);
     };
     fetchAd();
@@ -102,7 +100,7 @@ const SingleAdvPage: React.FC = () => {
           <Form.Item
             label="Ссылка на изображение"
             name="imageUrl"
-            rules={[{ required: true, message: 'Введите ссылку на изображение' }]}
+            rules={[{ message: 'Введите ссылку на изображение' }]}
           >
             <Input />
           </Form.Item>

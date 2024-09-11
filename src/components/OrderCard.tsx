@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
 import { Button, Card, List, Modal } from 'antd';
-import { Order } from '../types/types';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Order } from '../types/types';
 
 interface OrderProps {
   order: Order;
@@ -10,9 +10,9 @@ interface OrderProps {
 const OrderCard: React.FC<OrderProps> = ({ order }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  //   const showModal = () => {
+  //     setIsModalOpen(true);
+  //   };
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -22,13 +22,13 @@ const OrderCard: React.FC<OrderProps> = ({ order }) => {
     setIsModalOpen(false);
   };
 
-  const renderFinishedAt = () => {
-    if (!order.finishedAt || order.finishedAt === '') {
-      return <Button type="primary">Завершить заказ</Button>;
-    } else {
-      return <p>Заказ завершен {order.finishedAt}</p>;
-    }
-  };
+  //   const renderFinishedAt = () => {
+  //     if (!order.finishedAt || order.finishedAt === '') {
+  //       return <Button type="primary">Завершить заказ</Button>;
+  //     } else {
+  //       return <p>Заказ завершен {order.finishedAt}</p>;
+  //     }
+  //   };
 
   const handleOrderItems = () => {
     setIsModalOpen(true);

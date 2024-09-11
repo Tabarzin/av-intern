@@ -1,8 +1,8 @@
-import React from 'react';
 import { Select, Space } from 'antd';
 import type { SelectProps } from 'antd';
+import React from 'react';
 
-const options: SelectProps['options'] = [];
+// const options: SelectProps['options'] = [];
 
 interface SelectBarProps {
   options: SelectProps['options'];
@@ -15,7 +15,7 @@ const SelectBar: React.FC<SelectBarProps> = ({ options, onChange }) => (
       mode="multiple"
       allowClear
       style={{ width: '800px' }}
-      placeholder="Please select"
+      placeholder="Выберите критерий"
       defaultValue={[]}
       onChange={onChange}
       options={options}

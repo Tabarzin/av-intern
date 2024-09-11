@@ -1,8 +1,9 @@
+import { Advertisment, Order } from '../types/types';
+
 const process = require('process');
+// import process from 'process';
 
 const API = process.env.API_URL || 'http://localhost:3000';
-
-import { Advertisment, Order } from '../types/types';
 
 export async function getAdvs(): Promise<Advertisment[]> {
   try {

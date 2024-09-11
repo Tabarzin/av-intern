@@ -1,28 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { createAd, getAdvs } from '../../services/api';
-import { Advertisment } from '../../types/types';
 import AdvCard from '../../components/AdvCard';
-import { Col, Row, Button, Modal, Form, Input, InputNumber } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SearchBar from '../../components/SearchBar';
-import { Link } from 'react-router-dom';
-import TextArea from 'antd/es/input/TextArea';
-import { v4 as uuidv4 } from 'uuid';
-import './AllAdvPage.css';
 import SelectBar from '../../components/SelectBar';
+import { v4 as uuidv4 } from 'uuid';
+import { createAd, getAdvs } from '../../services/api';
+import { Advertisment } from '../../types/types';
+
+import { Col, Row, Button, Modal, Form, Input, InputNumber } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
+
+import React, { useState, useEffect } from 'react';
+
+import { Link } from 'react-router-dom';
+
+import './AllAdvPage.css';
+
+import { Spin } from 'antd';
 
 const filterOptions = [
-  { label: 'Price', value: 'price' },
-  { label: 'Likes', value: 'likes' },
-  { label: 'Views', value: 'views' },
+  { label: 'Стоимость', value: 'price' },
+  { label: 'Лайки', value: 'likes' },
+  { label: 'Просмотры', value: 'views' },
 ];
 
 const AllAdvPage: React.FC = () => {
   const [allAds, setAllAds] = useState<Advertisment[]>([]);
   const [shownAds, setShownAds] = useState<Advertisment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [isManualSelection, setIsManualSelection] = useState(false);
@@ -38,11 +45,26 @@ const AllAdvPage: React.FC = () => {
     applyFilters();
   }, [allAds, itemsPerPage, filters]);
 
+  // const loadAllAdvs = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const fetchedAds = await getAdvs();
+  //     setAllAds(fetchedAds);
+  //   } catch (err) {
+  //     if (err instanceof Error) {
+  //       console.error(err.message);
+  //     }
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const loadAllAdvs = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const fetchedAds = await getAdvs();
       setAllAds(fetchedAds);
+      setShownAds(fetchedAds.slice(0, itemsPerPage));
     } catch (err) {
       if (err instanceof Error) {
         console.error(err.message);
@@ -87,12 +109,26 @@ const AllAdvPage: React.FC = () => {
     applyFilters();
   };
 
-  const loadMoreAdvs = () => {
+  // const loadMoreAdvs = () => {
+  //   if (isManualSelection) return;
+  //   const currentLength = shownAds.length;
+  //   const newAds = allAds.slice(currentLength, currentLength + itemsPerPage);
+  //   setShownAds((prevAds) => [...prevAds, ...newAds]);
+  //   setHasMore(currentLength + newAds.length < allAds.length);
+  // };
+
+  const loadMoreAdvs = async () => {
     if (isManualSelection) return;
-    const currentLength = shownAds.length;
-    const newAds = allAds.slice(currentLength, currentLength + itemsPerPage);
-    setShownAds((prevAds) => [...prevAds, ...newAds]);
-    setHasMore(currentLength + newAds.length < allAds.length);
+
+    setLoadingMore(true);
+    try {
+      const currentLength = shownAds.length;
+      const newAds = allAds.slice(currentLength, currentLength + itemsPerPage);
+      setShownAds((prevAds) => [...prevAds, ...newAds]);
+      setHasMore(currentLength + newAds.length < allAds.length);
+    } finally {
+      setLoadingMore(false);
+    }
   };
 
   /* MODAL */
@@ -159,7 +195,7 @@ const AllAdvPage: React.FC = () => {
         dataLength={shownAds.length}
         next={loadMoreAdvs}
         hasMore={hasMore}
-        loader={''}
+        loader={<Spin size="large" />}
         endMessage={''}
         style={{ overflow: 'hidden' }}
       >
@@ -173,6 +209,12 @@ const AllAdvPage: React.FC = () => {
           ))}
         </Row>
       </InfiniteScroll>
+
+      {loading && (
+        <div style={{ textAlign: 'center', marginTop: '20px' }}>
+          <Spin size="large" />
+        </div>
+      )}
 
       <div>
         <Modal title="Новое объявление" open={isModalOpen} onOk={handleModal} onCancel={handleCancel}>

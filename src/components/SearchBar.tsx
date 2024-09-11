@@ -1,7 +1,8 @@
-import React, { useCallback, useState } from 'react';
 import { Input } from 'antd';
-import { Advertisment } from '../types/types';
 import debounce from 'lodash/debounce';
+import React, { useCallback, useState } from 'react';
+
+import { Advertisment } from '../types/types';
 
 const { Search } = Input;
 
