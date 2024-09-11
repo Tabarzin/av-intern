@@ -131,6 +131,16 @@
       "createdAt": "2024-09-10T21:55:26.496Z",
       "views": 0,
       "likes": 0
+    },
+    {
+      "id": "096afbf7-5cc9-4d64-844a-b56adbc8310d",
+      "name": "Продам кота",
+      "description": "Отличный пушистый кот.",
+      "price": 122,
+      "imageUrl": "http://placekitten.com/200/300",
+      "createdAt": "2024-09-11T17:05:32.721Z",
+      "views": 0,
+      "likes": 0
     }
   ],
   "orders": [

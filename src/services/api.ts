@@ -1,7 +1,7 @@
 import { Advertisment, Order } from '../types/types';
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const process = require('process');
-// import process from 'process';
 
 const API = process.env.API_URL || 'http://localhost:3000';
 

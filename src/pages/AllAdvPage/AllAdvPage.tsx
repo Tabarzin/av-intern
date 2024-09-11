@@ -1,21 +1,19 @@
-import AdvCard from '../../components/AdvCard';
+import { Col, Row, Button, Modal, Form, Input, InputNumber } from 'antd';
+import { Spin } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
+import React, { useState, useEffect } from 'react';
+
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { Link } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+
+import AdvCard from '../../components/AdvCard';
 import SearchBar from '../../components/SearchBar';
 import SelectBar from '../../components/SelectBar';
-import { v4 as uuidv4 } from 'uuid';
 import { createAd, getAdvs } from '../../services/api';
 import { Advertisment } from '../../types/types';
 
-import { Col, Row, Button, Modal, Form, Input, InputNumber } from 'antd';
-import TextArea from 'antd/es/input/TextArea';
-
-import React, { useState, useEffect } from 'react';
-
-import { Link } from 'react-router-dom';
-
 import './AllAdvPage.css';
-
-import { Spin } from 'antd';
 
 const filterOptions = [
   { label: 'Стоимость', value: 'price' },
@@ -27,9 +25,8 @@ const AllAdvPage: React.FC = () => {
   const [allAds, setAllAds] = useState<Advertisment[]>([]);
   const [shownAds, setShownAds] = useState<Advertisment[]>([]);
   const [loading, setLoading] = useState(true);
-  const [loadingMore, setLoadingMore] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState(true);
-  // const [page, setPage] = useState(1);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [isManualSelection, setIsManualSelection] = useState(false);
@@ -44,20 +41,6 @@ const AllAdvPage: React.FC = () => {
   useEffect(() => {
     applyFilters();
   }, [allAds, itemsPerPage, filters]);
-
-  // const loadAllAdvs = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const fetchedAds = await getAdvs();
-  //     setAllAds(fetchedAds);
-  //   } catch (err) {
-  //     if (err instanceof Error) {
-  //       console.error(err.message);
-  //     }
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const loadAllAdvs = async () => {
     setLoading(true);
@@ -74,13 +57,8 @@ const AllAdvPage: React.FC = () => {
     }
   };
 
-  const loadShownAds = () => {
-    setShownAds(allAds.slice(0, itemsPerPage));
-    setHasMore(!isManualSelection && itemsPerPage < allAds.length);
-  };
-
   const applyFilters = () => {
-    let filteredAds = [...allAds];
+    const filteredAds = [...allAds];
 
     if (filters.includes('price')) {
       filteredAds.sort((a, b) => a.price - b.price);
@@ -109,25 +87,16 @@ const AllAdvPage: React.FC = () => {
     applyFilters();
   };
 
-  // const loadMoreAdvs = () => {
-  //   if (isManualSelection) return;
-  //   const currentLength = shownAds.length;
-  //   const newAds = allAds.slice(currentLength, currentLength + itemsPerPage);
-  //   setShownAds((prevAds) => [...prevAds, ...newAds]);
-  //   setHasMore(currentLength + newAds.length < allAds.length);
-  // };
-
   const loadMoreAdvs = async () => {
     if (isManualSelection) return;
 
-    setLoadingMore(true);
     try {
       const currentLength = shownAds.length;
       const newAds = allAds.slice(currentLength, currentLength + itemsPerPage);
       setShownAds((prevAds) => [...prevAds, ...newAds]);
       setHasMore(currentLength + newAds.length < allAds.length);
-    } finally {
-      setLoadingMore(false);
+    } catch (error) {
+      console.error(error);
     }
   };
 

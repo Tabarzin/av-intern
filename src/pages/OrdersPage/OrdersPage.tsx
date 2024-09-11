@@ -2,11 +2,11 @@ import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import OrderCard from '../../components/OrderCard';
-
+import SelectBar from '../../components/SelectBar';
 import SortRadio from '../../components/SortRadio';
 import { getOrders } from '../../services/api';
 import { Order, OrderStatus } from '../../types/types';
-import SelectBar from '../../components/SelectBar';
+
 import './OrdersPage.css';
 
 const statusOptions = Object.entries(OrderStatus).map(([key, value]) => ({

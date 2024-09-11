@@ -6,19 +6,24 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { editAd, getAdvById } from '../services/api';
 import { Advertisment } from '../types/types';
 
+interface AdFormValues {
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+}
+
 const SingleAdvPage: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const [ad, setAd] = useState<Advertisment | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
   const navigate = useNavigate();
 
   const placeholderImage = 'https://fakeimg.pl/400x300/cccccc/cc6464?font=lobster';
-  const imageUrl = placeholderImage;
 
   useEffect(() => {
     if (!id) {
-      setError('Такого объявления нет');
+      console.error('Такого объявления нет');
 
       return;
     }
@@ -33,11 +38,13 @@ const SingleAdvPage: React.FC = () => {
     return <div>Loading...</div>;
   }
 
+  const imageUrl = ad.imageUrl !== '' ? ad.imageUrl : placeholderImage;
+
   const handleEditToggle = () => {
     setIsEditMode((prev) => !prev);
   };
 
-  const handleEdit = async (values: any) => {
+  const handleEdit = async (values: AdFormValues) => {
     if (id) {
       try {
         const updatedAd = {
@@ -52,7 +59,7 @@ const SingleAdvPage: React.FC = () => {
         setAd(updatedAd);
         setIsEditMode(false);
       } catch (error) {
-        console.error('Ошибка обновления объявления');
+        console.error(error, 'Ошибка обновления объявления');
       }
     }
   };
