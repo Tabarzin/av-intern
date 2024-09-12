@@ -2,8 +2,6 @@ import { Select, Space } from 'antd';
 import type { SelectProps } from 'antd';
 import React from 'react';
 
-// const options: SelectProps['options'] = [];
-
 interface SelectBarProps {
   options: SelectProps['options'];
   onChange: (value: string[]) => void;

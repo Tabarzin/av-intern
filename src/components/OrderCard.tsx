@@ -10,10 +10,6 @@ interface OrderProps {
 const OrderCard: React.FC<OrderProps> = ({ order }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  //   const showModal = () => {
-  //     setIsModalOpen(true);
-  //   };
-
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -21,14 +17,6 @@ const OrderCard: React.FC<OrderProps> = ({ order }) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
-  //   const renderFinishedAt = () => {
-  //     if (!order.finishedAt || order.finishedAt === '') {
-  //       return <Button type="primary">Завершить заказ</Button>;
-  //     } else {
-  //       return <p>Заказ завершен {order.finishedAt}</p>;
-  //     }
-  //   };
 
   const handleOrderItems = () => {
     setIsModalOpen(true);
